@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: green-helm-app
+  namespace: argocd
+spec:
+  destination:
+    namespace: argo-test
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+      parameters:
+      - name: env.config.APP_COLOR
+        value: red
+    path: helm-app
+    repoURL: https://github.com/khalilnouisser/test-argocd.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

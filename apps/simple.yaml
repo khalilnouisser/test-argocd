@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: simple
+  namespace: argocd
+spec:
+  destination:
+    namespace: argo-test
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: simple
+    repoURL: https://github.com/khalilnouisser/test-argocd.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
